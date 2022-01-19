@@ -21,7 +21,7 @@ After spending some time playing with them, I began to appreciate how generics i
 
 * [**How are you using generics in the Go playground?**](#how-are-you-using-generics-in-the-go-playground)
 * [**What is `T`?**](#what-is-t)
-* [**What is the `any` keyword I keep seeing everywhere?**](#what-is-the-any-keyword-i-keep-seeing-everywhere)
+* [**What is this `any` I keep seeing everywhere?**](#what-is-this-any-i-keep-seeing-everywhere)
 * [**What does the tilde `~` do?**](#what-does-the-tilde-do)
 * [**Do Go generics use _type erasure_?**](#do-go-generics-use-type-erasure)
 
@@ -38,14 +38,14 @@ The symbol `T` is often used when discussing generic types because `T` is the fi
 For what is worth, `K` is often used when there is more than one generic type, ex. `T, K`.
 
 
-### What is the `any` keyword I keep seeing everywhere?
+### What is this `any` I keep seeing everywhere?
 
-The `any` keyword is [equivalent to the empty interface in all ways](https://github.com/golang/go/blob/24239120bfbff9ebee8e8c344d9d3a8ce460b686/src/builtin/builtin.go#L94-L95). Simply put, writing and reading `any` is just more user friendly than `interface{}` :smiley:.
+The word `any` is a new, [predeclared identifier](https://go.dev/ref/spec#Predeclared_identifiers) and is [equivalent to the empty interface in all ways](https://github.com/golang/go/blob/24239120bfbff9ebee8e8c344d9d3a8ce460b686/src/builtin/builtin.go#L94-L95). Simply put, writing and reading `any` is just more user friendly than `interface{}` :smiley:.
 
 
 ### What does the tilde `~` do?
 
-The `~` symbol is used to express that `T` may be satisfied by a concrete type directly, by inheritence, or via type alias. To learn more about type constraints and the `~` symbol, please refer to the section [_Tilde `~`_](./03-getting-started/06-tilde.md).
+The `~` symbol is used to express that `T` may be satisfied by a concrete type directly, by implementation, or via type alias. To learn more about type constraints and the `~` symbol, please refer to the section [_Tilde `~`_](./03-getting-started/06-tilde.md).
 
 
 ### Do Go generics use _type erasure_?
