@@ -30,9 +30,7 @@ type Numeric interface {
 
 // Sum returns the sum of the provided arguments.
 func Sum[T Numeric](args ...T) T {
-	var defaultT T
 	sum := new(T)
-	sum = &defaultT
 	for i := 0; i < len(args); i++ {
 		*sum += args[i]
 	}
