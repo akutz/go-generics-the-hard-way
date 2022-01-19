@@ -1,0 +1,26 @@
+spawn jdb Main
+expect ">"
+
+send "stop at Main:22\n"
+expect ">"
+
+send "run\n"
+expect "Breakpoint hit:"
+
+send "locals\n"
+expect "Local variables:"
+
+send "dump list\n"
+expect "}"
+
+send "cont\n"
+expect "Breakpoint hit:"
+
+send "locals\n"
+expect "Local variables:"
+
+send "dump list\n"
+expect "}"
+
+send "quit\n"
+expect eof

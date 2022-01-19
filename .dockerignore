@@ -1,0 +1,17 @@
+.git/
+.vscode/
+
+*.out
+*.test
+*.svg
+*.pid
+*.class
+
+**/*.out
+**/*.test
+**/*.svg
+**/*.pid
+**/*.class
+
+**/bin/
+**/obj/

@@ -1,0 +1,8 @@
+*.out
+*.test
+*.svg
+*.pid
+*.class
+.vscode/
+bin/
+obj/
