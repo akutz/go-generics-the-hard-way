@@ -2,12 +2,6 @@
 
 Docker is the preferred approach to running the examples from this repository.
 
----
-
-:warning: **Please note** while it _is_ possible to use a container to run the examples locally, this method does not enable support for Go 1.18beta1 in VS Code. VS Code _does_ support [remote development via a container](https://code.visualstudio.com/docs/remote/containers), but I have never done so, and unless someone wants to write down how to do it, I will likely not add it here.
-
----
-
 * [**Build the image**](#build-the-image): build the Docker image locally
 * [**Use the image**](#use-the-image): use the Docker image to run the examples in this repository
 
