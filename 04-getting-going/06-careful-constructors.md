@@ -182,7 +182,7 @@ Now the expected output occurs:
 *main.UniqueName
 ```
 
-Hmm, that's odd, an _address_ to a `UniqueName` was printed, not `UniqueName`? That's because that is what was provided as `T` -- `*UniqueName`. And not just that, but what happens if the value at that address is printed ([Go playground](https://gotipplay.golang.org/p/bvAi8Ax0Q9f)):
+Hmm, that's odd, a pointer to a `UniqueName` was printed, not `UniqueName`? That's because that is what was provided as `T` -- `*UniqueName`. And not just that, but what happens if the value to which the pointer refers is printed ([Go playground](https://gotipplay.golang.org/p/bvAi8Ax0Q9f)):
 
 ```golang
 func main() {
