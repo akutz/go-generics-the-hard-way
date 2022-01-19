@@ -1,0 +1,7 @@
+{
+	"name": "Go Generics The Hard Way DevContainer",
+	"context": "..",
+	"dockerFile": "../Dockerfile",
+	"settings": {},
+	"extensions": ["golang.go"]
+}

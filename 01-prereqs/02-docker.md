@@ -48,10 +48,11 @@ docker tag akutz/go-generics-the-hard-way go-generics-the-hard-way
 
 ## Use the image
 
-The image may be used one of two ways:
+The image may be used one of three ways:
 
 * [**Self-contained**](#self-contained): run the examples from the image's filesystem
 * [**Mount repository**](#mount-repository): run the examples from your local filesystem using the image
+* [**VSCode Dev Container**](#dev-container): run the examples in VS Code using the `Remote - Containers` extension
 
 ### Self-contained
 
@@ -84,6 +85,22 @@ docker run -it --rm -v "$(pwd):/go-generics-the-hard-way" \
 
 At the end there will be a file in the current, local directory named `profile001.svg` that visualizes the memory profile produced from the benchmark.
 
+### Dev Container
+
+Alternatively, it is also possible to run the examples through opening the cloned reposity in a VS Code devcontainer:
+
+Note: This assumes you are using VS Code as your IDE
+
+1. To get started, install the extension `Remote - Containers` by Microsoft (ms-vscode-remote.remote-containers). 
+1. Open up your Command Palette and type or select `Remote-Containers: Reopen in Container` command.
+  - The extension should be able to pick up the settings described in the .devcontainer/devcontainer.json and build the Dockerfile
+1. Open up your terminal and you should be inside a container and at the project root. 
+  - A good test is to do 
+  ```bash 
+  go version
+  ```
+  If you see `go version go1.18beta1 linux/arm64` you should be good to go.
+  
 ---
 
 Next: [Hello world](../02-hello-world/)
