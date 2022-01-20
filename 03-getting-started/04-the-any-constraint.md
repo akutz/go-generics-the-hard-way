@@ -19,7 +19,7 @@ But why limit the function only `int` and `int64`? One way to increase the numbe
 func Sum[T int | int8 | int32 | int64](args ...T) T
 ```
 
-However, this would become cumbersome if we wanted to include _any_ numeric types. Huh, _any_? Is there not some new `any` keyword in Go? Can we use it to rewrite `Sum[T](...T) T`? Let's try ([Go playground](https://gotipplay.golang.org/p/pjq15Sro_SQ)):
+However, this would become cumbersome if we wanted to include _any_ numeric types. Huh, _any_? Is there not some new `any` identifier in Go? Can we use it to rewrite `Sum[T](...T) T`? Let's try ([Go playground](https://gotipplay.golang.org/p/pjq15Sro_SQ)):
 
 ```golang
 package main
@@ -52,7 +52,7 @@ Unfortunately the above program will fail to compile with the following error:
 ./prog.go:11:3: invalid operation: operator + not defined on sum (variable of type T constrained by any)
 ```
 
-The `any` keyword is [equivalent to the empty interface in all ways](https://github.com/golang/go/blob/24239120bfbff9ebee8e8c344d9d3a8ce460b686/src/builtin/builtin.go#L94-L95). Thus `T` in the above example might not represent a type for which the addition operator is valid.
+The `any` identifier is [equivalent to the empty interface in all ways](https://github.com/golang/go/blob/24239120bfbff9ebee8e8c344d9d3a8ce460b686/src/builtin/builtin.go#L94-L95). Thus `T` in the above example might not represent a type for which the addition operator is valid.
 
 Instead we need a type that represents all, possible _numeric_ types...
 
