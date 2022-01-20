@@ -60,6 +60,7 @@ Generics in Go are not implemented with type erasure. Please jump to [_Internals
 * [**Type parameter proposal**](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md): the accepted proposal for introdicing generics to go
 * [**Getting started with generics**](https://go.dev/doc/tutorial/generics): a tutorial from the authors of go for getting started with generics
 * [**Go language specification**](https://go.dev/ref/spec): the reference manual for the go language
+* [**Go FAQ**](https://go.dev/doc/faq): frequently asked questions for go
 
 ### Projects using generics
 
