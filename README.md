@@ -59,8 +59,11 @@ Generics in Go are not implemented with type erasure. Please jump to [_Internals
 
 * [**Type parameter proposal**](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md): the accepted proposal for introdicing generics to go
 * [**Getting started with generics**](https://go.dev/doc/tutorial/generics): a tutorial from the authors of go for getting started with generics
+* [**Go language specification**](https://go.dev/ref/spec): the reference manual for the go language
 
 ### Projects using generics
 
 * [**Controller-runtime**](https://gist.github.com/akutz/887fa677f2196c341d85595f14c6280b): a write-up and patchset for implementing conditions logic, patch helpers, and simple reconcilers using generics
-* [**go-generics-example**](https://github.com/mattn/go-generics-example): an examples using generics
+* [**Go collections**](https://github.com/mikhailswift/go-collections): generic utility functions for dealing with collections in go
+* [**go-generics-example**](https://github.com/mattn/go-generics-example): examples using generics
+
