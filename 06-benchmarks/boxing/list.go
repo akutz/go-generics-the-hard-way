@@ -16,7 +16,7 @@ limitations under the License.
 
 package boxing
 
-// BoxedList is a type alias for []interface{}.
+// BoxedList is a new type definition for []interface{}.
 type BoxedList []interface{}
 
 // Add a new element to the list.
@@ -27,7 +27,7 @@ func (a *BoxedList) Add(val interface{}) {
 	*a = append(*a, val)
 }
 
-// List is a type alias for []T.
+// List is a new type definition for []T.
 type List[T any] []T
 
 // Add a new element to the list.

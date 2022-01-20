@@ -52,10 +52,10 @@ Yet...let's rexamine the following statement:
 
 > the function `Sum[T Numeric](...T) T` can be used to sum values of any numeric type
 
-Is this really _true_? What about an alias for `int`? In fact, that will not work as `Sum[T Numeric](...T) T` is currently written ([Go playground](https://gotipplay.golang.org/p/HxzNIIRB8ET)):
+Is this really _true_? What about a type definition with an underlying type of `int`? In fact, that will not work as `Sum[T Numeric](...T) T` is currently written ([Go playground](https://gotipplay.golang.org/p/YohUg7xdUIl)):
 
 ```golang
-// id is a type alias for an int64
+// id is a new type definition for an int64
 type id int64
 
 func main() {

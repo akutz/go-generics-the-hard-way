@@ -45,7 +45,7 @@ The word `any` is a new, [predeclared identifier](https://go.dev/ref/spec#Predec
 
 ### What does the tilde `~` do?
 
-The `~` symbol is used to express that `T` may be satisfied by a concrete type directly, by implementation, or via type alias. To learn more about type constraints and the `~` symbol, please refer to the section [_Tilde `~`_](./03-getting-started/06-tilde.md).
+The `~` symbol is used to express that `T` may be satisfied by a defined or named type directly or by a type definition that has the same, underlying type as another defined or named type. To learn more about type constraints and the `~` symbol, please refer to the section [_Tilde `~`_](./03-getting-started/06-tilde.md).
 
 
 ### Do Go generics use _type erasure_?

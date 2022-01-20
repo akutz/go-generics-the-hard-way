@@ -4,9 +4,9 @@ Wow, we have come so far already! We have created:
 
 * a generic function
 * a generic constraint
-* a type alias that satifies the constraint
+* a new type definition that satifies the constraint
 
-Now we can use a single function to sum various types of numeric values ([Golang playground](https://gotipplay.golang.org/p/Jg9uCMglPC-)):
+Now we can use a single function to sum various types of numeric values ([Golang playground](https://gotipplay.golang.org/p/_PLH2reLokI)):
 
 ```golang
 func main() {

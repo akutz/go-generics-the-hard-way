@@ -8,7 +8,7 @@ So far all of the examples in this section have been focused on functions, but s
   * sum function
 * has a function for printing the ID and sum
 
-Okay, let's start by defining a struct that as a field named `ID` which can be a string value or a type alias for string:
+Okay, let's start by defining a struct that as a field named `ID` which can be a string value or a type definition with an underlying type of `string`:
 
 ```golang
 // Ledger is an identifiable, financial record.

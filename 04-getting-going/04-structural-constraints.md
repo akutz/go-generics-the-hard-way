@@ -1,6 +1,6 @@
 # Structural constraints
 
-So far all constraints have referred to primitive types or interfaces expressing a composite set of primitive types or aliases for those types. However, generics in Go also supports structural constraints. Imagine the following use case:
+So far all constraints have referred to primitive types or interfaces expressing a composite set of defined types or type definitions with the same underlying type of defined types. However, generics in Go also supports structural constraints. Imagine the following use case:
 
 * we need a function that accepts _any_ struct that has fields for:
   * ID
@@ -97,10 +97,11 @@ type CustomLedger struct {
 
 func main() {
 	// Call SomeFunc with an anonymous struct that uses a type
-	// alias for "string" as the type for the "ID" field.
+	// defintion with an underlying type of string as the type
+	// for the "ID" field.
 	//
-	// Please note that because a type alias is used in a nested
-	// type, inference does not work.
+	// Please note that because a type definition is used in a
+	// nested type, inference does not work.
 	SomeFunc[ID, float32, struct {
 		ID      ID
 		Amounts []float32
