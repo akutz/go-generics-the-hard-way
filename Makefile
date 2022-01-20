@@ -56,10 +56,25 @@ help:  ## Display this help
 IMAGE_NAME ?= go-generics-the-hard-way
 IMAGE_TAG  ?= latest
 IMAGE      ?= $(IMAGE_NAME):$(IMAGE_TAG)
+PLATFORMS  ?= linux/amd64,linux/arm64
+PUSH_ALL   ?=
 
 .PHONY: image-build
 image-build: ## Build the docker image
 	docker build -t $(IMAGE) .
+
+.PHONY: image-build-all
+image-build-all: ## Build the docker image for multiple platforms
+	docker buildx build -t $(IMAGE) --platform $(PLATFORMS) $(PUSH_ALL) .
+
+.PHONY: image-push
+image-push: ## Push the docker image
+	docker push $(IMAGE)
+
+.PHONY: image-push-all
+image-push-all: PUSH_ALL=--push
+image-push-all: image-build-all
+image-push-all: ## Push the docker image for multiple platforms
 
 # Please note the image is run in privileged mode in
 # order for the debuggers to attach to processes.
