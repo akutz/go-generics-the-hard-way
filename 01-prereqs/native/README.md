@@ -10,7 +10,7 @@ This section provides help for installing the following tooling required to run 
 
 * [**Go 1.18beta1**](./01-go1.18beta1.md)
 * [**delve 1.18**](./02-delve.md)
-* [**VS Code**](./03-vs-code.md)
+* [**VS Code**](./03-vscode.md)
 
 ---
 
