@@ -53,7 +53,14 @@ docker run -it --rm go-generics-the-hard-way \
   go test -bench . -benchmem -count 5 -v ./06-benchmarks/boxing/
 ```
 
-The results _should_ look something like this:
+---
+
+:warning: **Please note** that Docker may hang if not provided enough resources. The performance improvements are significant enough that the container may be starved for CPU and killed.
+
+---
+
+
+**Run via docker with 14cpu and 6GiB**
 
 ```bash
 goos: linux
@@ -61,27 +68,52 @@ goarch: amd64
 pkg: go-generics-the-hard-way/06-benchmarks/boxing
 cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
 BenchmarkBoxedList
-BenchmarkBoxedList-8   	 7492065	       144.1 ns/op	      96 B/op	       1 allocs/op
-BenchmarkBoxedList-8   	 8258203	       130.9 ns/op	      88 B/op	       1 allocs/op
-BenchmarkBoxedList-8   	 9099303	       150.1 ns/op	      98 B/op	       1 allocs/op
-BenchmarkBoxedList-8   	 9509346	       138.7 ns/op	      94 B/op	       1 allocs/op
-BenchmarkBoxedList-8   	 9163674	       120.0 ns/op	      98 B/op	       1 allocs/op
+BenchmarkBoxedList-14    	 8322405	       148.7 ns/op	     107 B/op	       0 allocs/op
+BenchmarkBoxedList-14    	10976193	       115.0 ns/op	     102 B/op	       0 allocs/op
+BenchmarkBoxedList-14    	11569058	       125.3 ns/op	      97 B/op	       0 allocs/op
+BenchmarkBoxedList-14    	 9299853	       123.6 ns/op	      96 B/op	       0 allocs/op
+BenchmarkBoxedList-14    	 9122316	       132.0 ns/op	      98 B/op	       0 allocs/op
 BenchmarkList
-BenchmarkList-8        	44022606	        39.95 ns/op	      42 B/op	       0 allocs/op
-BenchmarkList-8        	34879302	        49.81 ns/op	      43 B/op	       0 allocs/op
-BenchmarkList-8        	50451991	        49.79 ns/op	      46 B/op	       0 allocs/op
-BenchmarkList-8        	41202624	        34.65 ns/op	      45 B/op	       0 allocs/op
-BenchmarkList-8        	42310273	        28.94 ns/op	      44 B/op	       0 allocs/op
+BenchmarkList-14         	100000000	        10.52 ns/op	      45 B/op	       0 allocs/op
+BenchmarkList-14         	163110246	         8.399 ns/op	      43 B/op	       0 allocs/op
+BenchmarkList-14         	202797236	        12.38 ns/op	      44 B/op	       0 allocs/op
+BenchmarkList-14         	82267455	        18.61 ns/op	      44 B/op	       0 allocs/op
+BenchmarkList-14         	166848986	        12.94 ns/op	      42 B/op	       0 allocs/op
 PASS
-ok  	go-generics-the-hard-way/06-benchmarks/boxing	16.969s
+ok  	go-generics-the-hard-way/06-benchmarks/boxing	19.785s
+```
+
+**Run natively**
+
+```bash
+goos: darwin
+goarch: amd64
+pkg: go-generics-the-hard-way/06-benchmarks/boxing
+cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
+BenchmarkBoxedList
+BenchmarkBoxedList-16    	16099449	        85.37 ns/op	      88 B/op	       0 allocs/op
+BenchmarkBoxedList-16    	13072742	        99.08 ns/op	     106 B/op	       0 allocs/op
+BenchmarkBoxedList-16    	14000494	        90.01 ns/op	     100 B/op	       0 allocs/op
+BenchmarkBoxedList-16    	16146943	        78.90 ns/op	      88 B/op	       0 allocs/op
+BenchmarkBoxedList-16    	13265748	        86.84 ns/op	     105 B/op	       0 allocs/op
+BenchmarkList
+BenchmarkList-16         	100000000	        15.63 ns/op	      45 B/op	       0 allocs/op
+BenchmarkList-16         	297442202	        24.31 ns/op	      47 B/op	       0 allocs/op
+BenchmarkList-16         	259559503	        17.17 ns/op	      43 B/op	       0 allocs/op
+BenchmarkList-16         	256879438	         5.537 ns/op	      43 B/op	       0 allocs/op
+BenchmarkList-16         	276920250	         3.819 ns/op	      40 B/op	       0 allocs/op
+PASS
+ok  	go-generics-the-hard-way/06-benchmarks/boxing	25.895s
 ```
 
 ## Key takeaways
 
 A few, key takeaways:
 
-* On average the implementation of `List[T any]` was more performant with respect to CPU _and_ memory by 300% and 200%, respectively.
-* Because no boxing was needed to store an `int` in `List[int]`, there was no need to allocate anything to box the integer added to the `List[int]`.
+* On average the implementation of `List[T any]` was more performant:
+  * operations were 10x faster
+  * consumed half the memory
+* The performance improvements were the result of removing the need to box the integer values
 
 ---
 

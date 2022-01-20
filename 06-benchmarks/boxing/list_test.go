@@ -17,7 +17,6 @@ limitations under the License.
 package boxing_test
 
 import (
-	"math/rand"
 	"testing"
 
 	"go-generics-the-hard-way/06-benchmarks/boxing"
@@ -26,13 +25,13 @@ import (
 func BenchmarkBoxedList(b *testing.B) {
 	var list boxing.BoxedList
 	for i := 0; i < b.N; i++ {
-		list = append(list, rand.Int())
+		list = append(list, i)
 	}
 }
 
 func BenchmarkList(b *testing.B) {
 	var list boxing.List[int]
 	for i := 0; i < b.N; i++ {
-		list = append(list, rand.Int())
+		list = append(list, i)
 	}
 }
