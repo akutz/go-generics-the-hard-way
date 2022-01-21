@@ -82,3 +82,14 @@ image-push-all: ## Push the docker image for multiple platforms
 image-run: ## Launch the docker image
 	docker run -it --rm --privileged $(IMAGE)
 
+
+## --------------------------------------
+## Testing
+## --------------------------------------
+.PHONY: test-all
+test-all: ## Run all tests
+	go test -v ./...
+
+.PHONY: test-all-docker
+test-all-docker: ## Run all tests in the container
+	docker run -it --rm --privileged $(IMAGE) make test-all

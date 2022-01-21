@@ -1,3 +1,6 @@
+//go:build invalid
+// +build invalid
+
 /*
 Copyright 2022
 

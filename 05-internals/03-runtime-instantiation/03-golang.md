@@ -52,6 +52,19 @@ The code comments in the above program describe why Go does not support runtime 
 
 To run the above program, please follow these instructions:
 
+---
+
+:warning: **Please note**
+
+The `go build` command below uses the flag `-tags invalid`. This flag instructs Go to include `05-internals/03-runtime-instantiation/golang/main.go` in the compilation. Normally this file has a build constraint that prevents it from being considered to prevent:
+
+* Dev tools (ex. an IDE such as VS Code) from constantly warning this file is in error
+* a failed `go test ./...` command from the root of this repository
+
+However, the entire _point_ of _this_ example is to demonstrate that failure, so the file needs to be "activated."
+
+---
+
 1. Launch the container:
 
     ```bash
@@ -61,14 +74,14 @@ To run the above program, please follow these instructions:
 1. Attempt to build the program:
 
     ```bash
-    go build ./05-internals/03-runtime-instantiation/golang/
+    go build -tags invalid ./05-internals/03-runtime-instantiation/golang/
     ```
 
     and the following compiler error will occur:
 
     ```bash
     # go-generics-the-hard-way/05-internals/03-runtime-instantiation/golang
-    05-internals/03-runtime-instantiation/golang/main.go:43:21: cannot use generic type List without instantiation
+    05-internals/03-runtime-instantiation/golang/main.go:46:21: cannot use generic type List without instantiation
     ```
 
 1. Type `exit` to stop and remove the container.
