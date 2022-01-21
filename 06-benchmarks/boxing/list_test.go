@@ -19,7 +19,7 @@ package boxing_test
 import (
 	"testing"
 
-	boxing "go-generics-the-hard-way/06-benchmarks/01-boxing"
+	"go-generics-the-hard-way/06-benchmarks/boxing"
 )
 
 func BenchmarkBoxedList(b *testing.B) {
