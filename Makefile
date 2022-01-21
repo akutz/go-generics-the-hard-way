@@ -59,6 +59,11 @@ IMAGE      ?= $(IMAGE_NAME):$(IMAGE_TAG)
 PLATFORMS  ?= linux/amd64,linux/arm64
 PUSH_ALL   ?=
 
+# Please note the `--cap-add=SYS_PTRACE --security-opt seccomp=unconfined`
+# flags are required in order to use the `lldb` debugger to attach to a
+# .NET process.
+IMAGE_RUN_FLAGS ?= -it --rm --cap-add=SYS_PTRACE --security-opt seccomp=unconfined
+
 .PHONY: image-build
 image-build: ## Build the docker image
 	docker build -t $(IMAGE) .
@@ -80,7 +85,7 @@ image-push-all: ## Push the docker image for multiple platforms
 # order for the debuggers to attach to processes.
 .PHONY: image-run
 image-run: ## Launch the docker image
-	docker run -it --rm --privileged $(IMAGE)
+	docker run $(IMAGE_RUN_FLAGS) $(IMAGE)
 
 
 ## --------------------------------------
@@ -92,4 +97,4 @@ test-all: ## Run all tests
 
 .PHONY: test-all-docker
 test-all-docker: ## Run all tests in the container
-	docker run -it --rm --privileged $(IMAGE) make test-all
+	docker run $(IMAGE_RUN_FLAGS) $(IMAGE) make test-all
