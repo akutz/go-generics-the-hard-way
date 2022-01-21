@@ -1,6 +1,6 @@
 ## The problem
 
-If you have ever worked with the Amazon Web Services SDK for Go or Kubernetes Custom Resource Definitions (CRD) in Go, then you are very aware of all the occasions where some optional field takes a `string` or `bool` by address, for example ([Go playground](https://gotipplay.golang.org/p/ZRvbHRYAodL)):
+If you have ever worked with the Amazon Web Services SDK for Go or Kubernetes Custom Resource Definitions (CRD) in Go, then you are no doubt quite familiar when some argument or field takes a pointer to a `string` or `int`, for example ([Go playground](https://gotipplay.golang.org/p/r6Dv9T0kCvJ)):
 
 ```go
 package main
@@ -10,30 +10,31 @@ import (
 )
 
 type request struct {
-	enabled  *bool
-	nickname *string
+	host *string
+	port *int
 }
 
-func printRequest(r request) {
-	e, n := "nil", "nil"
-	if r.enabled != nil {
-		e = fmt.Sprintf("%v", *r.enabled)
+func print(r request) {
+	fmt.Print("request: host=")
+	if r.host != nil {
+		fmt.Print(*r.host)
 	}
-	if r.nickname != nil {
-		n = *r.nickname
+	fmt.Print(", port=")
+	if r.port != nil {
+		fmt.Printf("%d", *r.port)
 	}
-	fmt.Printf("request: enabled=%s, nickname=%s\n", e, n)
+	fmt.Println()
 }
 
 func main() {
-	printRequest(request{
-		enabled:  nil, // needs address of a bool
-		nickname: nil, // needs address of a string
+	print(request{
+		host: nil, // needs a *int
+		port: nil, // needs a *string
 	})
 }
 ```
 
-There are two, common solutions for solving the above conundrum:
+There are two, common -- albeit far from perfect -- solutions for addressing the issue:
 
 * [**Local variables**](./02-local-vars.md): a solution using temporary, local variables
 * [**Typed helper functions**](./03-typed-helpers.md): a solution using typed, helper functions

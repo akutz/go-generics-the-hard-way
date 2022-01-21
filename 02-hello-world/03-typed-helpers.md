@@ -1,47 +1,30 @@
 # Typed helper functions
 
-The others solutions we commonly see is to create a helper function for each type, ex. ([Go playground](https://gotipplay.golang.org/p/U9otocywibi)):
+The other, frequently seen pattern is a per-type helper function, ex. ([Go playground](https://gotipplay.golang.org/p/ouB4myMtHWS)):
 
 ```go
-package main
-
-import (
-	"fmt"
-)
-
-type request struct {
-	enabled  *bool
-	nickname *string
+// PtrInt returns *i.
+func PtrInt(i int) *int {
+	return &i
 }
 
-func printRequest(r request) {
-	e, n := "nil", "nil"
-	if r.enabled != nil {
-		e = fmt.Sprintf("%v", *r.enabled)
-	}
-	if r.nickname != nil {
-		n = *r.nickname
-	}
-	fmt.Printf("request: enabled=%s, nickname=%s\n", e, n)
-}
-
-func ptrBool(b bool) *bool {
-	return &b
-}
-
-func ptrString(s string) *string {
+// PtrStr returns *s.
+func PtrStr(s string) *string {
 	return &s
 }
 
 func main() {
-	printRequest(request{
-		enabled:  ptrBool(true),
-		nickname: ptrString("akutz"),
+	// Use the two helper functions that return pointers to their provided
+	// values. Remember, this pattern must scale with the number of distinct,
+	// defined types that need to be passed by pointer instead of value.
+	print(request{
+		host: PtrStr("local"),
+		port: PtrInt(80),
 	})
 }
 ```
 
-This approach means needing to redefine variants of a function for taking the address of a value for every type of value whose address needs to be taken.
+This approach requires a new function, per type. Surely there must be a more elegant solution...
 
 ---
 
