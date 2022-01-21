@@ -1,12 +1,14 @@
 .git/
 .vscode/
 
+*.a
 *.out
 *.test
 *.svg
 *.pid
 *.class
 
+**/*.a
 **/*.out
 **/*.test
 **/*.svg
