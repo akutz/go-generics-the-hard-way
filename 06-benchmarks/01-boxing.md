@@ -50,7 +50,7 @@ In order to determine the impact produced by the lack of boxing, we will run som
 
 ```bash
 docker run -it --rm go-generics-the-hard-way \
-  go test -bench . -benchmem -count 5 -v ./06-benchmarks/boxing/
+  go test -bench . -benchmem -count 5 -v ./06-benchmarks/01-boxing/
 ```
 
 ---
@@ -65,7 +65,7 @@ docker run -it --rm go-generics-the-hard-way \
 ```bash
 goos: linux
 goarch: amd64
-pkg: go-generics-the-hard-way/06-benchmarks/boxing
+pkg: go-generics-the-hard-way/06-benchmarks/01-boxing
 cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
 BenchmarkBoxedList
 BenchmarkBoxedList-14    	 8322405	       148.7 ns/op	     107 B/op	       0 allocs/op
@@ -80,7 +80,7 @@ BenchmarkList-14         	202797236	        12.38 ns/op	      44 B/op	       0 a
 BenchmarkList-14         	82267455	        18.61 ns/op	      44 B/op	       0 allocs/op
 BenchmarkList-14         	166848986	        12.94 ns/op	      42 B/op	       0 allocs/op
 PASS
-ok  	go-generics-the-hard-way/06-benchmarks/boxing	19.785s
+ok  	go-generics-the-hard-way/06-benchmarks/01-boxing	19.785s
 ```
 
 **Run natively**
@@ -88,7 +88,7 @@ ok  	go-generics-the-hard-way/06-benchmarks/boxing	19.785s
 ```bash
 goos: darwin
 goarch: amd64
-pkg: go-generics-the-hard-way/06-benchmarks/boxing
+pkg: go-generics-the-hard-way/06-benchmarks/01-boxing
 cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
 BenchmarkBoxedList
 BenchmarkBoxedList-16    	16099449	        85.37 ns/op	      88 B/op	       0 allocs/op
@@ -103,7 +103,7 @@ BenchmarkList-16         	259559503	        17.17 ns/op	      43 B/op	       0 a
 BenchmarkList-16         	256879438	         5.537 ns/op	      43 B/op	       0 allocs/op
 BenchmarkList-16         	276920250	         3.819 ns/op	      40 B/op	       0 allocs/op
 PASS
-ok  	go-generics-the-hard-way/06-benchmarks/boxing	25.895s
+ok  	go-generics-the-hard-way/06-benchmarks/01-boxing	25.895s
 ```
 
 ## Key takeaways

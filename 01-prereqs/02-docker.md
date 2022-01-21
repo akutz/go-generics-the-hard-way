@@ -54,7 +54,7 @@ This method does not require cloning this repository locally since the Docker im
 
 ```bash
 docker run -it --rm go-generics-the-hard-way \
-  go test -bench . -benchmem -count 5 -v ./06-benchmarks/boxing/
+  go test -bench . -benchmem -count 5 -v ./06-benchmarks/01-boxing/
 ```
 
 ### Mount repository
@@ -73,7 +73,7 @@ For example, the following command will:
 ```bash
 docker run -it --rm -v "$(pwd):/go-generics-the-hard-way" \
   go-generics-the-hard-way bash -c ' \
-  go test -bench . -benchmem -count 5 -memprofile memprofile.out -v ./06-benchmarks/boxing/ && \
+  go test -bench . -benchmem -count 5 -memprofile memprofile.out -v ./06-benchmarks/01-boxing/ && \
   go tool pprof -svg memprofile.out'
 ```
 
