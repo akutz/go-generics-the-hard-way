@@ -108,7 +108,7 @@ We know that at runtime both `ints` and `strs` lost their type information and e
 
 1. Type `exit` to stop and remove the container.
 
-In other words, generics in Java are purely a compile-time conveinence feature. How does .NET stack up? Keep reading and find out.
+In other words, generics in Java are purely a compile-time convenience feature. How does .NET stack up? Keep reading and find out.
 
 ---
 

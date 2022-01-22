@@ -169,7 +169,7 @@ We know that at runtime both `ints` and `strs` retain their type information. Do
 
 1. Type `exit` to stop and remove the container.
 
-In conclusion, generics in .NET **do** do enforce runtime type safety. Is the same true for Golang?
+In conclusion, generics in .NET **do** enforce runtime type safety. Is the same true for Golang?
 
 ---
 

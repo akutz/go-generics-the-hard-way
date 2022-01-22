@@ -37,7 +37,7 @@ type Ledger[T ~string, K Numeric] struct {
 }
 ```
 
-So far I think this should make sense as it does no differ _too_ much from what we have already covered. However, the next step _is_ new -- defining a function on a generic struct. One of the use cases is:
+So far I think this should make sense as it does not differ _too_ much from what we have already covered. However, the next step _is_ new -- defining a function on a generic struct. One of the use cases is:
 
 > has a function for printing the ID and sum
 
