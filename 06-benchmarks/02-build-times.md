@@ -121,4 +121,4 @@ The Go compiler appears to be incredibly efficient at stencling the generic type
 
 ---
 
-Next: [File sizes](../03-file-sizes.md)
+Next: [File sizes](./03-file-sizes.md)
