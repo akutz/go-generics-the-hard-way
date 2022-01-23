@@ -55,7 +55,7 @@ class Main {
 }
 ```
 
-The code comments in the above program demonstrate that Java does not allow runtime instantiation from generic types. Which makes since, as generics are strictly a compile-time conveience feature in Java.
+The code comments in the above program demonstrate that Java does not allow runtime instantiation from generic types. Which makes sense, as generics are strictly a compile-time convenience feature in Java.
 
 To run the above program, please follow these instructions:
 
@@ -84,7 +84,7 @@ To run the above program, please follow these instructions:
 
 1. Type `exit` to stop and remove the container.
 
-It bears saying once more -- generics in Java are purely a compile-time, conveinence feature. What about .NET and Go?
+It bears saying once more -- generics in Java are purely a compile-time, convenience feature. What about .NET and Go?
 
 ---
 

@@ -74,7 +74,7 @@ What do `ints` and `strs` look like at runtime? Follow the instructions below to
     =>  48:	}
     ```
 
-1. Now that the are loaded into memory we can test the type safety of `ints` and `strs`. Unfortunately the Golang debugger `dlv` does not let us invoke the `ints.add(int)` function, but we _can_ show that `ints` definitely maintains its type safety at runtime by trying to assign `strs` to `ints`:
+1. Now that they are loaded into memory we can test the type safety of `ints` and `strs`. Unfortunately the Golang debugger `dlv` does not let us invoke the `ints.add(int)` function, but we _can_ show that `ints` definitely maintains its type safety at runtime by trying to assign `strs` to `ints`:
 
     ```bash
     set ints=strs

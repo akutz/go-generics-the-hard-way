@@ -134,7 +134,7 @@ type CanSetID interface {
 }
 ```
 
-Let's go ahead and implement this on `UnqiueName`:
+Let's go ahead and implement this on `UniqueName`:
 
 ```golang
 func (u *UniqueName) SetID(s string) {
@@ -206,7 +206,7 @@ This is because a new instance of a _pointer_ to a `UniqueName` was declared and
 Hopefully the reason for structural constraints is now a little more clear. Instead of using an interface constraint with `SetID(string)` for assigning a value, a structural constraint would simultaneously enable:
 
 * initializing a new instance of a generic type
-* assgining values to the fields of the new instance
+* assigning values to the fields of the new instance
 
 Bear in mind this could be considered an edge case, but it is worth demonstrating. For what it is worth, it _is_ possible to figure out `T` from `*T` using the `reflect` package, but without _extreme_ care this can _easily_ lead to the violation of the runtime type safety provided by generics and should be avoided whenever possible. However, for those inquiring minds that want to know... ([Golang playground](https://gotipplay.golang.org/p/xOW18VTorJS)):
 
