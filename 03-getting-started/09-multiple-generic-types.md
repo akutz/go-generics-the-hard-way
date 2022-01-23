@@ -27,7 +27,7 @@ This definitely seems like our old friend `Sum[T Numeric](...T) T` :smiley:, but
 
 ```golang
 // SumFn defines a function that can return the sum of one to zero numbers.
-type SumFn func[T Numeric](...T) T
+type SumFn[T Numeric] func(...T) T
 
 func SomeFunc[T ~string, K Numeric](id T, fn SumFn[K]) {}
 ```
@@ -38,18 +38,12 @@ Unfortunately this fails to compile with the following error because function ty
 prog.go:8:16: function type cannot have type parameters
 ```
 
-Instead we can just inline the function signature into `SomeFunc` like so:
-
-```golang
-func SomeFunc[T ~string, K Numeric](id T, sum func(...K) K) {}
-```
-
 > receive zero to many numeric values
 
 Okay, this would be a variadic based on the generic constriant `Numeric`. Easy enough:
 
 ```golang
-func SomeFunc[T ~string, K Numeric](id T, sum func(...K) K, values ...K) {}
+func SomeFunc[T ~string, K Numeric](id T, sum SumFn[K], values ...K) {}
 ```
 
 > print the ID and sum of the values on a single line
@@ -58,7 +52,7 @@ Now we are getting to the heart of it! And since we know the intent, let's go ah
 
 ```golang
 // PrintIDAndSum prints the provided ID and sum of the given values to stdout.
-func PrintIDAndSum[T ~string, K Numeric](id T, sum func(...K) K, values ...K) {
+func PrintIDAndSum[T ~string, K Numeric](id T, sum SumFn[K], values ...K) {
 
 	// The format string uses "%v" to emit the sum since using "%d" would
 	// be invalid if the value type was a float or complex variant.
@@ -66,7 +60,7 @@ func PrintIDAndSum[T ~string, K Numeric](id T, sum func(...K) K, values ...K) {
 }
 ```
 
-Alright, let's put all this together into a program ([Golang playground](https://gotipplay.golang.org/p/VUbbSEeO6IQ)):
+Alright, let's put all this together into a program ([Golang playground](https://gotipplay.golang.org/p/ZeSWNvI-SQi)):
 
 ```golang
 func main() {
@@ -90,7 +84,7 @@ One of the key points on the page about type inference was:
 
 > The Go compiler tries _really_ hard to infer the intended types, but it does not always work when you think it should
 
-Because of the way the `PrintIDAndSum[T ~string, K Numeric](T, func(...K) K)` is written, it would be easy to assume that the Go compiler _should_ be able to infer the numeric type for the `Sum` function, but it just does not always work when you think it should. Instead the program needs to specify the type for `Sum` explicitly:
+Because of the way the `PrintIDAndSum[T ~string, K Numeric](T, SumFn[K])` is written, it would be easy to assume that the Go compiler _should_ be able to infer the numeric type for the `Sum` function, but it just does not always work when you think it should. Instead the program needs to specify the type for `Sum` explicitly:
 
 ```golang
 func main() {
