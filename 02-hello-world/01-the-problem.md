@@ -28,8 +28,8 @@ func print(r request) {
 
 func main() {
 	print(request{
-		host: nil, // needs a *int
-		port: nil, // needs a *string
+		host: nil, // needs a *string
+		port: nil, // needs a *int
 	})
 }
 ```
