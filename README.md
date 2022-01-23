@@ -27,9 +27,7 @@ After spending some time playing with them, I began to appreciate how generics i
 
 
 ### How are you using generics in the Go playground?
-
-While it is true that the Go playground uses the most recent, stable release of Go, there is also a Go playground that uses the tip at https://gotipplay.golang.org, and this playground supports generics.
-
+We can use [the Go playground in “Go dev branch” mode](https://go.dev/play/?v=gotip) to edit and run your program with generics.
 
 ### What is `T`?
 
