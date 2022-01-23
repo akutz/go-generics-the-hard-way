@@ -29,7 +29,7 @@ However, when trying to run this example the compiler balks with the following e
 ./prog.go:17:17: int64 does not implement int
 ```
 
-This occurs because while the function `Sum[T int](...T) T` is written generically, the type of `T` is constrained to be only an `int`. The function needs to be rewritten so can be rewritten so it can accept an `int` _or_ an `int64`:
+This occurs because while the function `Sum[T int](...T) T` is written generically, the type of `T` is constrained to be only an `int`. The function needs to be rewritten so it can accept an `int` _or_ an `int64`:
 
 ```golang
 func Sum[T int | int64](args ...T) T {
