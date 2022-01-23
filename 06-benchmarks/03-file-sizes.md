@@ -1,5 +1,11 @@
 # File sizes
 
+---
+
+:warning: **Please note** that it is likely the discrepancy in file sizes is due to [golang/go#50438](https://github.com/golang/go/issues/50438). This page will be updated with more information as soon as possible. Thanks!
+
+---
+
 While generics did not seem to have demonstrable impact on build times based on the limited sampling, the same cannot be said for file sizes. This page describes how to run `TestFileSizes`, a Go-based test that builds the following packages:
 
 * **`./lists/boxed`**: defines `type List []interface{}`
