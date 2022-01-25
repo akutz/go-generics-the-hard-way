@@ -7,7 +7,7 @@ So far all constraints have referred to primitive types or interfaces expressing
   * numeric values
   * sum function
 
-In other words what is needed a function that takes an instance of `Ledger[T, K]` ([Go playground](https://gotipplay.golang.org/p/Mf1pTRmx-FO)):
+In other words what is needed is a function that takes an instance of `Ledger[T, K]` ([Go playground](https://gotipplay.golang.org/p/Mf1pTRmx-FO)):
 
 ```golang
 func SomeFunc[T ~string, K Numeric](l Ledger[T, K]) {}
