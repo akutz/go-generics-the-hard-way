@@ -1,5 +1,5 @@
-//go:build int64
-// +build int64
+//go:build int && !int8 && !int16 && !int32 && !int64
+// +build int,!int8,!int16,!int32,!int64
 
 /*
 Copyright 2022
@@ -17,12 +17,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package list
+package main
 
-var _ Int64List
+import (
+	list "go-generics-the-hard-way/06-benchmarks/lists/generic"
+)
 
-type Int64List []int64
-
-func (l *Int64List) Add(val int64) {
-	*l = append(*l, val)
+func main() {
+	var intList list.List[int]
+	intList.Add(1)
 }

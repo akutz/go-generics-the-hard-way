@@ -2,6 +2,7 @@
 .vscode/
 
 *.a
+*.bin
 *.out
 *.test
 *.svg
@@ -9,6 +10,7 @@
 *.class
 
 **/*.a
+**/*.bin
 **/*.out
 **/*.test
 **/*.svg

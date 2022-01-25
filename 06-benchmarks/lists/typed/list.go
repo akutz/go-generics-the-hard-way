@@ -1,5 +1,5 @@
-//go:build int32
-// +build int32
+//go:build no_int
+// +build no_int
 
 /*
 Copyright 2022
@@ -18,11 +18,3 @@ limitations under the License.
 */
 
 package list
-
-var _ Int32List
-
-type Int32List []int32
-
-func (l *Int32List) Add(val int32) {
-	*l = append(*l, val)
-}

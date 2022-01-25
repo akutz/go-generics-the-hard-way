@@ -9,6 +9,7 @@ All of the below software must be installed and configured correctly to run the 
 * [**sos**](https://docs.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-sos): a .NET debugger extension for `lldb`
 * [**OpenJDK 11+**](https://openjdk.java.net/): the OSS implementation of Java
 * [**expect 5.45+**](https://linux.die.net/man/1/expect): talks to other programs
+* [**Python 3**](https://python.org): for parsing Go benchmark results
 
 While it _is_ possible to do so successfully both on macOS and Linux, it is highly recommended to use Docker.
 

@@ -1,4 +1,5 @@
 *.a
+*.bin
 *.out
 *.test
 *.svg
