@@ -84,43 +84,39 @@ def printBoxingMarkdown(listType, data):
     )
 
 
-def printBuildTimeMarkdown(listType, data):
-    s = "| {} | {} | {} | {} | {} |"
+def printBuildTimeMarkdown(data):
+    s = "| {} | {} | {} | {} | {} | {} | {} | {} | {} | {} |"
 
-    if listType == "Boxed":
-        print(
-            s.format(
-                listType, "bin", 1, data["bin"][-1]["ops"], data["bin"][-1]["nsOp"]
+    def printFileType(file_type):
+        for i in range(0, 6):
+            ft = file_type
+            if i > 0:
+                ft = ""
+            tOps = data["typed"][file_type][i]["ops"]
+            gOps = data["generic"][file_type][i]["ops"]
+            tNsOp = data["typed"][file_type][i]["nsOp"]
+            gNsOp = data["generic"][file_type][i]["nsOp"]
+            print(
+                s.format(
+                    ft,
+                    i,
+                    noZedZed(tOps),
+                    noZedZed(gOps),
+                    noZedZed(gOps - tOps),
+                    noZedZed(-(((tOps - gOps) / tOps) * 100)),
+                    noZedZed(tNsOp),
+                    noZedZed(gNsOp),
+                    noZedZed(gNsOp - tNsOp),
+                    noZedZed(-((tNsOp - gNsOp) / tNsOp) * 100),
+                )
             )
-        )
-        print(s.format("", "pkg", 1, data["pkg"][-1]["ops"], data["pkg"][-1]["nsOp"]))
-        return
 
-    def printN(fileType, numTypes, listType=listType):
-        lt = listType
-        ft = fileType
-        if numTypes > 0:
-            lt = ""
-            ft = ""
-        print(
-            s.format(
-                lt,
-                ft,
-                numTypes,
-                data[fileType][numTypes]["ops"],
-                data[fileType][numTypes]["nsOp"],
-            )
-        )
-
-    for i in range(0, 6):
-        printN("bin", i)
-
-    for i in range(0, 6):
-        printN("pkg", i, listType="")
+    printFileType("pkg")
+    printFileType("bin")
 
 
 def printFileSizeMarkdown(data):
-    s = "| {} | {} | {} | {} | {} | {:.2f} |"
+    s = "| {} | {} | {} | {} | {} | {} |"
 
     def printFileType(file_type):
         for i in range(0, 6):
@@ -129,11 +125,19 @@ def printFileSizeMarkdown(data):
                 ft = ""
             t = data["typed"][file_type][i]["bytesOp"]
             g = data["generic"][file_type][i]["bytesOp"]
-            print(s.format(ft, i, t, g, g-t, abs(((t-g)/t)*100)))
+            print(
+                s.format(
+                    ft,
+                    i,
+                    noZedZed(t),
+                    noZedZed(g),
+                    noZedZed(g - t),
+                    noZedZed(-(((t - g) / t) * 100)),
+                )
+            )
 
     printFileType("pkg")
     printFileType("bin")
-
 
 
 parser = argparse.ArgumentParser(
@@ -325,12 +329,18 @@ if args.type == "boxing":
     printBoxingMarkdown("Typed", avgTyped)
 
 elif args.type == "buildtime":
-    print("| List type | Artifact type | Number of types | Operations | ns/op |")
-    print("|:---------:|:-------------:|:---------------:|:----------:|:-----:|")
-    printBuildTimeMarkdown("Boxed", data["boxed"])
-    printBuildTimeMarkdown("Generic", data["generic"])
-    printBuildTimeMarkdown("Typed", data["typed"])
+    print(
+        "| Artifact type | Number of types | Ops - typed | Ops - generic | Increase (ops) | Increase (%) | ns/op - typed | ns/op - generic | Increase (ns/op) | Increase (%) |"
+    )
+    print(
+        "|:-------------:|:---------------:|:-----------:|:-------------:|:--------------:|:------------:|:-------------:|:---------------:|:----------------:|:------------:|"
+    )
+    printBuildTimeMarkdown(data)
 elif args.type == "filesize":
-    print("| Artifact type | Number of types | File size (bytes) - typed | File size (bytes) - generic | Increase (bytes) | Increase (%) |")
-    print("|:-------------:|:---------------:|:-------------------------:|:---------------------------:|:----------------:|:------------:|")
+    print(
+        "| Artifact type | Number of types | File size (bytes) - typed | File size (bytes) - generic | Increase (bytes) | Increase (%) |"
+    )
+    print(
+        "|:-------------:|:---------------:|:-------------------------:|:---------------------------:|:----------------:|:------------:|"
+    )
     printFileSizeMarkdown(data)
