@@ -14,8 +14,9 @@ After spending some time playing with them, I began to appreciate how generics i
 2. [**Hello world**](./02-hello-world/): a simple example using generics
 3. [**Getting started**](./03-getting-started): an introduction to go generics
 4. [**Getting going**](./04-getting-going): basic concepts explored
-4. [**Internals**](./05-internals/): how generics are implemented in golang
-5. [**Benchmarks**](./06-benchmarks/): basic benchmarks for common patterns using generics
+5. [**Internals**](./05-internals/): how generics are implemented in golang
+6. [**Benchmarks**](./06-benchmarks/): basic benchmarks for common patterns using generics
+7. [**Lessons learned**](./07-lessons-learned/): lessons learned from digging into generics
 
 ## FAQ
 

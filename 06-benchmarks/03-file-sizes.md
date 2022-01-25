@@ -104,4 +104,4 @@ In all cases the output should indicate a file with:
 
 ---
 
-Next: _That's it, thank you for reading!_
+Next: [Lessons learned](../07-lessons-learned/)
