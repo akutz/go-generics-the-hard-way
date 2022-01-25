@@ -33,7 +33,7 @@ type Ledger[T ~string, K Numeric] struct {
 
 	// SumFn is a function that can be used to sum the amounts
 	// in this ledger.
-	SumFn func(...K) K
+	SumFn SumFn[K]
 }
 ```
 
@@ -57,7 +57,7 @@ func (l Ledger[T, K]) PrintIDAndSum() {
 }
 ```
 
-Notice the constraints do not need to be included, only the symbols for the constraints. With all of this in place, the same example from the previous page can be rewritten using the new type `Ledger[T, K]` ([Golang playground](https://gotipplay.golang.org/p/TCM_WUNMRBp)):
+Notice the constraints do not need to be included, only the symbols for the constraints. With all of this in place, the same example from the previous page can be rewritten using the new type `Ledger[T, K]` ([Golang playground](https://gotipplay.golang.org/p/9GpJbR897Pr)):
 
 ```golang
 func main() {

@@ -27,7 +27,7 @@ func main() {
 
 ---
 
-The program compiles and runs fine, except the use case was not for a function that takes an instance of `Ledger[T, K]` but for a function that matches _any_ struct with those fields. That sounds a lot like the tilde `~` operator... ([Go playground](https://gotipplay.golang.org/p/PBafJ5K2qje)):
+The program compiles and runs fine, except the use case was not for a function that takes an instance of `Ledger[T, K]` but for a function that matches _any_ struct with those fields. That sounds a lot like the tilde `~` operator... ([Go playground](https://gotipplay.golang.org/p/HSqEpRWkr-8)):
 
 ```golang
 func SomeFunc[T ~string, K Numeric, L ~Ledger[T, K]](l L) {}
@@ -44,11 +44,11 @@ func main() {
 But of course this does not compile:
 
 ```bash
-./prog.go:44:39: invalid use of ~ (underlying type of Ledger[T, K] is struct{ID T; Amounts []K; SumFn func(...K) K})
-./prog.go:47:23: cannot implement ~Ledger[string, int] (empty type set)
+./prog.go:47:39: invalid use of ~ (underlying type of Ledger[T, K] is struct{ID T; Amounts []K; SumFn SumFn[K]})
+./prog.go:50:24: cannot implement ~Ledger[string, int] (empty type set)
 ```
 
-The secret here is _all_ structs implement the anonymous struct, so if we want to match all structs with the aforementioned fields, we want to use `~` with an anonymous struct ([Go playground](https://gotipplay.golang.org/p/UUbnlEn1Kbk)):
+The secret here is _all_ structs implement the anonymous struct, so if we want to match all structs with the aforementioned fields, we want to use `~` with an anonymous struct ([Go playground](https://gotipplay.golang.org/p/6DwJnBiYD4J)):
 
 ```golang
 func SomeFunc[
@@ -57,7 +57,7 @@ func SomeFunc[
 	L ~struct {
 		ID      T
 		Amounts []K
-		SumFn   func(...K) K
+		SumFn   SumFn[K]
 	},
 ](l L) {
 }
@@ -71,7 +71,7 @@ func main() {
 }
 ```
 
-In fact, the above example even be rewritten so the call to `SomeFunc` relies on type inference ([Go playground](https://gotipplay.golang.org/p/qIrVpRYny7j)):
+In fact, the above example even be rewritten so the call to `SomeFunc` relies on type inference ([Go playground](https://gotipplay.golang.org/p/6ds7bDq2_ep)):
 
 ```golang
 func main() {
@@ -83,7 +83,7 @@ func main() {
 }
 ```
 
-Now that `SomeFunc` can accept any struct that matches the constraint, it's possible to send other types as well ([Go playground](https://gotipplay.golang.org/p/qglsh-7HVLW)):
+Now that `SomeFunc` can accept any struct that matches the constraint, it's possible to send other types as well ([Go playground](https://gotipplay.golang.org/p/Mng1uoHqKg5)):
 
 
 ```golang
@@ -92,24 +92,23 @@ type ID string
 type CustomLedger struct {
 	ID      ID
 	Amounts []uint64
-	SumFn   func(...uint64) uint64
+	SumFn   SumFn[uint64]
 }
 
 func main() {
 	// Call SomeFunc with an anonymous struct that uses a type
-	// defintion with an underlying type of string as the type
-	// for the "ID" field.
+	// alias for "string" as the type for the "ID" field.
 	//
-	// Please note that because a type definition is used in a
-	// nested type, inference does not work.
+	// Please note that because a type alias is used in a nested
+	// type, inference does not work.
 	SomeFunc[ID, float32, struct {
 		ID      ID
 		Amounts []float32
-		SumFn   func(...float32) float32
+		SumFn   SumFn[float32]
 	}](struct {
 		ID      ID
 		Amounts []float32
-		SumFn   func(...float32) float32
+		SumFn   SumFn[float32]
 	}{
 		ID:      ID("fake"),
 		Amounts: []float32{1, 2, 3},
@@ -123,7 +122,7 @@ func main() {
 	SomeFunc(struct {
 		ID      string
 		Amounts []float32
-		SumFn   func(...float32) float32
+		SumFn   SumFn[float32]
 	}{
 		ID:      "fake",
 		Amounts: []float32{1, 2, 3},
@@ -147,13 +146,13 @@ func main() {
 }
 ```
 
-However, please note the following will _not_ work ([Go playground](https://gotipplay.golang.org/p/09xLeclgAd9)):
+However, please note the following will _not_ work ([Go playground](https://gotipplay.golang.org/p/7DlFxBI2rEz)):
 
 ```golang
 type LedgerNode struct {
 	ID      string
 	Amounts []uint64
-	SumFn   func(...uint64) uint64
+	SumFn   SumFn[uint64]
 	Next    *LedgerNode
 }
 
@@ -172,7 +171,7 @@ func main() {
 Instead the above fails to compile with the following error:
 
 ```bash
-./prog.go:65:10: L does not match struct{ID T; Amounts []K; SumFn func(...K) K}
+./prog.go:69:10: L does not match struct{ID T; Amounts []K; SumFn SumFn[K]}
 ```
 
 Structural constraints must match the struct _exactly_, and this means even if all of the fields in the constraint are present, the presence of additional fields in the provided value means the type does not satisfy the constraint.

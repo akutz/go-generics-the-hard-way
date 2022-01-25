@@ -32,12 +32,6 @@ type SumFn[T Numeric] func(...T) T
 func SomeFunc[T ~string, K Numeric](id T, fn SumFn[K]) {}
 ```
 
-Unfortunately this fails to compile with the following error because function types cannot be generic:
-
-```bash
-prog.go:8:16: function type cannot have type parameters
-```
-
 > receive zero to many numeric values
 
 Okay, this would be a variadic based on the generic constriant `Numeric`. Easy enough:

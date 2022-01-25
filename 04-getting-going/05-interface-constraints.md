@@ -9,7 +9,7 @@ type Ledgerish[T ~string, K Numeric] interface {
 	~struct {
 		ID      T
 		Amounts []K
-		SumFn   func(...K) K
+		SumFn   SumFn[K]
 	}
 }
 ```
@@ -34,7 +34,7 @@ func PrintLedger[T ~string, K Numeric, L Ledgerish[T, K]](l L) {
 }
 ```
 
-If we tried it as it is now, it would fail ([Golang playground](https://gotipplay.golang.org/p/DwdqepHk3wM)):
+If we tried it as it is now, it would fail ([Golang playground](https://gotipplay.golang.org/p/AT2mw5btoYo)):
 
 ```golang
 func main() {
@@ -49,7 +49,7 @@ func main() {
 The above example will produce the following compilier error:
 
 ```bash
-./prog.go:57:4: l.PrintIDAndSum undefined (type L has no field or method PrintIDAndSum)
+./prog.go:60:4: l.PrintIDAndSum undefined (type L has no field or method PrintIDAndSum)
 ```
 
 The secret this time is to remember that `Ledgerish` _is_ a Go interface, and as such, can have methods defined on it:
@@ -61,14 +61,14 @@ type Ledgerish[T ~string, K Numeric] interface {
 	~struct {
 		ID      T
 		Amounts []K
-		SumFn   func(...K) K
+		SumFn   SumFn[K]
 	}
 
 	PrintIDAndSum()
 }
 ```
 
-Now the above example works as intended ([Golang playground](https://gotipplay.golang.org/p/uQhtKjZ-2Hk)):
+Now the above example works as intended ([Golang playground](https://gotipplay.golang.org/p/N2xwtM91D-E)):
 
 ```bash
 fake has a sum of (6+0i)
