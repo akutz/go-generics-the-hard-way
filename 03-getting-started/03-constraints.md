@@ -53,6 +53,14 @@ Using the `|` operator, the constraints for `T` can be expressed such that `T` c
 6
 ```
 
+---
+
+:sparkles: Wait a minute, isn't the `|` operator in Go supposed to be the [_bitwise_](https://go.dev/ref/spec#Arithmetic_operators) `OR` operation and `||` the [_conditional_](https://go.dev/ref/spec#Logical_operators) `OR`? 
+
+You are not wrong. However, it seems that the type parameter proposal elected to follow the lead of languages like [PHP](https://en.wikipedia.org/wiki/Union_type#PHP), [Python](https://en.wikipedia.org/wiki/Union_type#Python), and [TypeScript](https://en.wikipedia.org/wiki/Union_type#TypeScript), which all use the `|` operator to express a union type. Indeed `T | K` is referred to as a [_union constraint_](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#union-constraint-element) in the type parameter proposal.
+
+---
+
 But what about wanting a `Sum` function that can handle _any_ numeric value? While it is possible to just list them all in `Sum[T int | int32 | int64 |...`, this would result in difficult-to-read code. Luckily there is a better way...
 
 ---
