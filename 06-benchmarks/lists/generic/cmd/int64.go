@@ -1,5 +1,5 @@
-//go:build int8
-// +build int8
+//go:build int && int8 && int16 && int32 && int64
+// +build int,int8,int16,int32,int64
 
 /*
 Copyright 2022
@@ -17,12 +17,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package list
+package main
 
-var _ Int8List
+import (
+	list "go-generics-the-hard-way/06-benchmarks/lists/generic"
+)
 
-type Int8List []int8
+func main() {
+	var intList list.List[int]
+	intList.Add(1)
 
-func (l *Int8List) Add(val int8) {
-	*l = append(*l, val)
+	var int8List list.List[int8]
+	int8List.Add(1)
+
+	var int16List list.List[int16]
+	int16List.Add(1)
+
+	var int32List list.List[int32]
+	int32List.Add(1)
+
+	var int64List list.List[int64]
+	int64List.Add(1)
 }

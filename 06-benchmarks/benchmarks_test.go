@@ -1,6 +1,3 @@
-//go:build benchmarks
-// +build benchmarks
-
 /*
 Copyright 2022
 
@@ -22,28 +19,27 @@ package benchmarks_test
 import (
 	"os"
 	"os/exec"
-	"strings"
 	"testing"
 
-	blist "go-generics-the-hard-way/06-benchmarks/lists/boxed-list"
-	glist "go-generics-the-hard-way/06-benchmarks/lists/generic-list"
-	tlist "go-generics-the-hard-way/06-benchmarks/lists/typed-list"
+	blist "go-generics-the-hard-way/06-benchmarks/lists/boxed"
+	glist "go-generics-the-hard-way/06-benchmarks/lists/generic"
+	tlist "go-generics-the-hard-way/06-benchmarks/lists/typed"
 )
 
 func BenchmarkBoxing(b *testing.B) {
-	b.Run("BoxedList", func(b *testing.B) {
+	b.Run("boxed", func(b *testing.B) {
 		var list blist.List
 		for i := 0; i < b.N; i++ {
 			list = append(list, i)
 		}
 	})
-	b.Run("GenericList", func(b *testing.B) {
+	b.Run("generic", func(b *testing.B) {
 		var list glist.List[int]
 		for i := 0; i < b.N; i++ {
 			list = append(list, i)
 		}
 	})
-	b.Run("TypedList", func(b *testing.B) {
+	b.Run("typed", func(b *testing.B) {
 		var list tlist.IntList
 		for i := 0; i < b.N; i++ {
 			list = append(list, i)
@@ -51,118 +47,264 @@ func BenchmarkBoxing(b *testing.B) {
 	})
 }
 
-func BenchmarkBuildTimes(b *testing.B) {
+var (
+	tags0Types = "no_int"
+	tags1Types = "int"
+	tags2Types = "int,int8"
+	tags3Types = "int,int8,int16"
+	tags4Types = "int,int8,int16,int32"
+	tags5Types = "int,int8,int16,int32,int64"
+)
 
-	args := func(listType string, types ...string) []string {
-		if len(types) == 0 {
-			types = []string{
-				"int", "int8", "int16", "int32", "int64",
-			}
-		}
-		return []string{
-			"build",
-			"-a",
-			"-tags",
-			strings.Join(types, ","),
-			"./lists/" + listType + "-list",
-		}
-	}
-
-	run := func(b *testing.B, listType string, types ...string) {
-		for i := 0; i < b.N; i++ {
-			err := exec.Command("go", args(listType, types...)...).Run()
-			if err != nil {
-				b.Error(err)
-			}
-		}
-	}
-
-	runTypedOrGeneric := func(b *testing.B, listType string) {
-		b.Run("1-type", func(b *testing.B) {
-			run(b, listType, "int")
-		})
-		b.Run("2-types", func(b *testing.B) {
-			run(b, listType, "int", "int8")
-		})
-		b.Run("3-types", func(b *testing.B) {
-			run(b, listType, "int", "int8", "int16")
-		})
-		b.Run("4-types", func(b *testing.B) {
-			run(b, listType, "int", "int8", "int16", "int32")
-		})
-		b.Run("5-types", func(b *testing.B) {
-			run(b, listType, "int", "int8", "int16", "int32", "int64")
-		})
-	}
-
-	b.Run("BoxedList", func(b *testing.B) {
-		run(b, "boxed")
-	})
-
-	b.Run("GenericList", func(b *testing.B) {
-		runTypedOrGeneric(b, "generic")
-	})
-	b.Run("TypedList", func(b *testing.B) {
-		runTypedOrGeneric(b, "typed")
-	})
+type gobuildTestCase struct {
+	name     string
+	listType string
+	testGrps []gobuildSubTestGroup
 }
 
-func TestFileSizes(t *testing.T) {
+type gobuildSubTestGroup struct {
+	name     string
+	fileType string
+	subTests []gobuildSubTestCase
+}
 
-	args := func(listType string, types ...string) []string {
-		if len(types) == 0 {
-			types = []string{
-				"int", "int8", "int16", "int32", "int64",
+type gobuildSubTestCase struct {
+	name     string
+	args     []string
+	tags     []string
+	filePath string
+	fileSize int64
+}
+
+func BenchmarkGoBuild(b *testing.B) {
+	testCases := []gobuildTestCase{
+		{
+			name:     "boxed",
+			listType: "boxed",
+			testGrps: []gobuildSubTestGroup{
+				{
+					name:     "bin",
+					fileType: ".bin",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "empty interface",
+							args:     []string{"build", "-a", "-o", "boxed.bin", "./lists/boxed/cmd"},
+							filePath: "boxed.bin",
+						},
+					},
+				},
+				{
+					name:     "pkg",
+					fileType: ".a",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "empty interface",
+							args:     []string{"build", "-a", "-o", "boxed.a", "./lists/boxed/"},
+							filePath: "boxed.a",
+						},
+					},
+				},
+			},
+		},
+		{
+			name:     "generic",
+			listType: "generic",
+			testGrps: []gobuildSubTestGroup{
+				{
+					name:     "bin",
+					fileType: ".bin",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "0-types",
+							args:     []string{"build", "-a", "-tags", tags0Types, "-o", "generic-0-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-0-types.bin",
+						},
+						{
+							name:     "1-types",
+							args:     []string{"build", "-a", "-tags", tags1Types, "-o", "generic-1-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-1-types.bin",
+						},
+						{
+							name:     "2-types",
+							args:     []string{"build", "-a", "-tags", tags2Types, "-o", "generic-2-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-2-types.bin",
+						},
+						{
+							name:     "3-types",
+							args:     []string{"build", "-a", "-tags", tags3Types, "-o", "generic-3-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-3-types.bin",
+						},
+						{
+							name:     "4-types",
+							args:     []string{"build", "-a", "-tags", tags4Types, "-o", "generic-4-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-4-types.bin",
+						},
+						{
+							name:     "5-types",
+							args:     []string{"build", "-a", "-tags", tags5Types, "-o", "generic-5-types.bin", "./lists/generic/cmd/"},
+							filePath: "generic-5-types.bin",
+						},
+					},
+				},
+				{
+					name:     "pkg",
+					fileType: ".a",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "0-types",
+							args:     []string{"build", "-a", "-tags", tags0Types, "-o", "generic-0-types.a", "./lists/generic/"},
+							filePath: "generic-0-types.a",
+						},
+						{
+							name:     "1-types",
+							args:     []string{"build", "-a", "-tags", tags1Types, "-o", "generic-1-types.a", "./lists/generic/"},
+							filePath: "generic-1-types.a",
+						},
+						{
+							name:     "2-types",
+							args:     []string{"build", "-a", "-tags", tags2Types, "-o", "generic-2-types.a", "./lists/generic/"},
+							filePath: "generic-2-types.a",
+						},
+						{
+							name:     "3-types",
+							args:     []string{"build", "-a", "-tags", tags3Types, "-o", "generic-3-types.a", "./lists/generic/"},
+							filePath: "generic-3-types.a",
+						},
+						{
+							name:     "4-types",
+							args:     []string{"build", "-a", "-tags", tags4Types, "-o", "generic-4-types.a", "./lists/generic/"},
+							filePath: "generic-4-types.a",
+						},
+						{
+							name:     "5-types",
+							args:     []string{"build", "-a", "-tags", tags5Types, "-o", "generic-5-types.a", "./lists/generic/"},
+							filePath: "generic-5-types.a",
+						},
+					},
+				},
+			},
+		},
+		{
+			name:     "typed",
+			listType: "typed",
+			testGrps: []gobuildSubTestGroup{
+				{
+					name:     "bin",
+					fileType: ".bin",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "0-types",
+							args:     []string{"build", "-a", "-tags", tags0Types, "-o", "typed-0-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-0-types.bin",
+						},
+						{
+							name:     "1-types",
+							args:     []string{"build", "-a", "-tags", tags1Types, "-o", "typed-1-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-1-types.bin",
+						},
+						{
+							name:     "2-types",
+							args:     []string{"build", "-a", "-tags", tags2Types, "-o", "typed-2-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-2-types.bin",
+						},
+						{
+							name:     "3-types",
+							args:     []string{"build", "-a", "-tags", tags3Types, "-o", "typed-3-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-3-types.bin",
+						},
+						{
+							name:     "4-types",
+							args:     []string{"build", "-a", "-tags", tags4Types, "-o", "typed-4-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-4-types.bin",
+						},
+						{
+							name:     "5-types",
+							args:     []string{"build", "-a", "-tags", tags5Types, "-o", "typed-5-types.bin", "./lists/typed/cmd/"},
+							filePath: "typed-5-types.bin",
+						},
+					},
+				},
+				{
+					name:     "pkg",
+					fileType: ".a",
+					subTests: []gobuildSubTestCase{
+						{
+							name:     "0-types",
+							args:     []string{"build", "-a", "-tags", tags0Types, "-o", "typed-0-types.a", "./lists/typed/"},
+							filePath: "typed-0-types.a",
+						},
+						{
+							name:     "1-types",
+							args:     []string{"build", "-a", "-tags", tags1Types, "-o", "typed-1-types.a", "./lists/typed/"},
+							filePath: "typed-1-types.a",
+						},
+						{
+							name:     "2-types",
+							args:     []string{"build", "-a", "-tags", tags2Types, "-o", "typed-2-types.a", "./lists/typed/"},
+							filePath: "typed-2-types.a",
+						},
+						{
+							name:     "3-types",
+							args:     []string{"build", "-a", "-tags", tags3Types, "-o", "typed-3-types.a", "./lists/typed/"},
+							filePath: "typed-3-types.a",
+						},
+						{
+							name:     "4-types",
+							args:     []string{"build", "-a", "-tags", tags4Types, "-o", "typed-4-types.a", "./lists/typed/"},
+							filePath: "typed-4-types.a",
+						},
+						{
+							name:     "5-types",
+							args:     []string{"build", "-a", "-tags", tags5Types, "-o", "typed-5-types.a", "./lists/typed/"},
+							filePath: "typed-5-types.a",
+						},
+					},
+				},
+			},
+		},
+	}
+
+	b.ResetTimer()
+
+	for i := range testCases {
+
+		// Capture the test case.
+		tc := testCases[i]
+
+		b.Run(tc.name, func(b *testing.B) {
+
+			for j := range tc.testGrps {
+
+				// Capture the test group.
+				tg := tc.testGrps[j]
+
+				b.Run(tg.name, func(b *testing.B) {
+
+					for k := range tg.subTests {
+
+						// Capture the sub test.
+						st := tg.subTests[k]
+
+						b.Run(st.name, func(b *testing.B) {
+
+							for i := 0; i < b.N; i++ {
+								err := exec.Command("go", st.args...).Run()
+								if err != nil {
+									b.Error(err)
+								}
+
+								info, err := os.Stat(st.filePath)
+								if err != nil {
+									b.Error(err)
+								}
+								b.ReportMetric(float64(info.Size()), "filesize/op")
+							}
+						})
+					}
+				})
 			}
-		}
-		return []string{
-			"build",
-			"-a",
-			"-o",
-			listType + ".a",
-			"-tags",
-			strings.Join(types, ","),
-			"./lists/" + listType + "-list",
-		}
-	}
-
-	build := func(t *testing.T, listType string, types ...string) {
-		err := exec.Command("go", args(listType, types...)...).Run()
-		if err != nil {
-			t.Fatal(err)
-		}
-		info, err := os.Stat(listType + ".a")
-		if err != nil {
-			t.Fatal(err)
-		}
-		t.Logf("file size: %d", info.Size())
-	}
-
-	buildTypedOrGeneric := func(t *testing.T, listType string) {
-		t.Run("1-type", func(t *testing.T) {
-			build(t, listType, "int")
-		})
-		t.Run("2-types", func(t *testing.T) {
-			build(t, listType, "int", "int8")
-		})
-		t.Run("3-types", func(t *testing.T) {
-			build(t, listType, "int", "int8", "int16")
-		})
-		t.Run("4-types", func(t *testing.T) {
-			build(t, listType, "int", "int8", "int16", "int32")
-		})
-		t.Run("5-types", func(t *testing.T) {
-			build(t, listType, "int", "int8", "int16", "int32", "int64")
 		})
 	}
 
-	t.Run("Boxed", func(t *testing.T) {
-		build(t, "boxed")
-	})
-	t.Run("Generic", func(t *testing.T) {
-		buildTypedOrGeneric(t, "generic")
-	})
-	t.Run("Typed", func(t *testing.T) {
-		buildTypedOrGeneric(t, "typed")
-	})
+	b.StopTimer()
 }

@@ -1,6 +1,3 @@
-//go:build !no_int
-// +build !no_int
-
 /*
 Copyright 2022
 
@@ -17,12 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package list
+package main
 
-var _ IntList
+import (
+	list "go-generics-the-hard-way/06-benchmarks/lists/boxed"
+)
 
-type IntList []int
-
-func (l *IntList) Add(val int) {
-	*l = append(*l, val)
+func main() {
+	var l list.List
+	l.Add(1)
 }
