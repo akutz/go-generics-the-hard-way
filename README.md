@@ -1,8 +1,8 @@
 # Go generics the hard way
 
-I started using Go back around 2015 and was immediately surprised by the lack of any type of generic type system. Sure, the empty `interface{}` existed, but that was hardly the same. At first I thought I ~~wanted~~ _needed_ generics in Go, but over time I began appreciating the simplicity of the language. So when I learned of discussions to introduce generics in Go 2.0, I was ambivalent at best. Once the timetable to introduce generics was accelerated to Go 1.18, I decided it was time to take a closer look at the proposal.
+I started using Go back around 2015 and was immediately surprised by the lack of a generic type system. Sure, the empty `interface{}` existed, but that was hardly the same. At first I thought I ~~wanted~~ _needed_ generics in Go, but over time I began appreciating the simplicity of the language. Therefore I was ambivalent at best when I learned of discussions to introduce generics in Go 2.0, and once the timetable was accelerated to 1.18, I decided it was time to dig into the proposal.
 
-After spending some time playing with them, I began to appreciate how generics in Go have been designed and implemented with the same elegance and simplicity as Go itself. I hope you will agree, and to that end, this repository is a hands-on approach to learning all about generics in Go.
+After a while, I gained an appreciation for how generics are implemented with the same elegance as Golang itself, and this moved me to share my experience. _Go generics the hard way_ is a culmination of the time I spent playing with this new feature and provides a hands-on approach to learning all about generics in Go.
 
 * [**Labs**](#labs): a hands-on approach to learning Go generics
 * [**FAQ**](#FAQ): answers to some of the most frequently asked questions regarding Go generics
