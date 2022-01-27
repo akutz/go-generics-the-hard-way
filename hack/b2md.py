@@ -52,30 +52,33 @@ def avgNoZedZed(a, b):
     return noZedZed(a / b)
 
 
-def avgBoxingData(listType, data):
+def avgBoxingData(listType, typeType, data):
     ops = 0
     nsOp = 0
     bytesOp = 0
     allocsOp = 0
 
-    for e in data[listType]:
+    data = data[listType][typeType]
+
+    for e in data:
         ops += e["ops"]
         nsOp += e["nsOp"]
         bytesOp += e["bytesOp"]
         allocsOp += e["allocsOp"]
 
     return {
-        "ops": avgNoZedZed(ops, len(data[listType])),
-        "nsOp": avgNoZedZed(nsOp, len(data[listType])),
-        "bytesOp": avgNoZedZed(bytesOp, len(data[listType])),
-        "allocsOp": avgNoZedZed(allocsOp, len(data[listType])),
+        "ops": avgNoZedZed(ops, len(data)),
+        "nsOp": avgNoZedZed(nsOp, len(data)),
+        "bytesOp": avgNoZedZed(bytesOp, len(data)),
+        "allocsOp": avgNoZedZed(allocsOp, len(data)),
     }
 
 
-def printBoxingMarkdown(listType, data):
+def printBoxingMarkdown(listType, typeType, data):
     print(
-        "| {} | 1 | {} | {} | {} | {} |".format(
+        "| {} | {} | {} | {} | {} | {} |".format(
             listType,
+            typeType,
             data["ops"],
             data["nsOp"],
             data["bytesOp"],
@@ -190,14 +193,25 @@ rx = re.compile(
 if args.type == "boxing":
     """
     data = {
-        "boxed": [
-            {
-                "ops": 0,
-                "nsOp": 0,
-                "bytesOp": 0,
-                "allocsOp": 0,
-            },
-        ],
+        "boxed": {
+            "int64": [
+                {
+                    "ops": 0,
+                    "nsOp": 0,
+                    "bytesOp": 0,
+                    "allocsOp": 0,
+                },
+            ],
+
+            # same as int64
+            "*int64": [],
+
+            # same as int64
+            "struct{int32; int64}": [],
+
+            # same as int64
+            "*struct{int32; int64}": [],
+        },
 
         # same as boxed
         "generic": [],
@@ -266,9 +280,17 @@ for line in f:
 
     if args.type == "boxing":
         if list_type not in data:
-            data[list_type] = []
+            data[list_type] = {}
 
-        data[list_type].append(
+        if "/int" in name:
+            type_type = "int"
+        elif "/*int" in name:
+            type_type = "*int"
+
+        if type_type not in data[list_type]:
+            data[list_type][type_type] = []
+
+        data[list_type][type_type].append(
             {
                 "ops": ops,
                 "nsOp": nsOp,
@@ -276,6 +298,7 @@ for line in f:
                 "allocsOp": allocsOp,
             }
         )
+
     else:
         if list_type not in data:
             data[list_type] = {}
@@ -318,15 +341,31 @@ for line in f:
 f.close()
 
 if args.type == "boxing":
-    avgBoxed = avgBoxingData("boxed", data)
-    avgGeneric = avgBoxingData("generic", data)
-    avgTyped = avgBoxingData("typed", data)
+    avgBoxedInt = avgBoxingData("boxed", "int", data)
+    avgBoxedStruct = avgBoxingData("boxed", "*int", data)
+    #avgBoxedPtrStruct = avgBoxingData("boxed", "*struct", data)
 
-    print("| List type | Number of types | Operations | ns/op | Bytes/op | Allocs/op |")
-    print("|:---------:|:---------------:|:----------:|:-----:|:--------:|:---------:|")
-    printBoxingMarkdown("Boxed", avgBoxed)
-    printBoxingMarkdown("Generic", avgGeneric)
-    printBoxingMarkdown("Typed", avgTyped)
+    avgGenericInt = avgBoxingData("generic", "int", data)
+    avgGenericStruct = avgBoxingData("generic", "*int", data)
+    #avgGenericPtrStruct = avgBoxingData("generic", "*struct", data)
+
+    avgTypedInt = avgBoxingData("typed", "int", data)
+    avgTypedStruct = avgBoxingData("typed", "*int", data)
+    #avgTypedPtrStruct = avgBoxingData("typed", "*struct", data)
+
+    print("| List type | Element type | Operations | ns/op | Bytes/op | Allocs/op |")
+    print("|:---------:|:------------:|:----------:|:-----:|:--------:|:---------:|")
+    printBoxingMarkdown("Boxed", "int", avgBoxedInt)
+    printBoxingMarkdown("", "*int", avgBoxedStruct)
+    #printBoxingMarkdown("", "*struct", avgBoxedPtrStruct)
+
+    printBoxingMarkdown("Generic", "int", avgGenericInt)
+    printBoxingMarkdown("", "*int", avgGenericStruct)
+    #printBoxingMarkdown("", "*struct", avgGenericPtrStruct)
+
+    printBoxingMarkdown("Typed", "int", avgTypedInt)
+    printBoxingMarkdown("", "*int", avgTypedStruct)
+    #printBoxingMarkdown("", "*struct", avgTypedPtrStruct)
 
 elif args.type == "buildtime":
     print(

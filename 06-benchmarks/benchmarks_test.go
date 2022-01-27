@@ -23,27 +23,212 @@ import (
 
 	blist "go-generics-the-hard-way/06-benchmarks/lists/boxed"
 	glist "go-generics-the-hard-way/06-benchmarks/lists/generic"
-	tlist "go-generics-the-hard-way/06-benchmarks/lists/typed"
 )
 
 func BenchmarkBoxing(b *testing.B) {
-	b.Run("boxed", func(b *testing.B) {
-		var list blist.List
-		for i := 0; i < b.N; i++ {
-			list = append(list, i)
+
+	var (
+		_int   int
+		_int8  int8
+		_int16 int16
+		_int32 int32
+		_int64 int64
+
+		_uint   uint
+		_uint8  uint8
+		_uint16 uint16
+		_uint32 uint32
+		_uint64 uint64
+
+		_float32 float32
+		_float64 float64
+
+		_complex64  complex64
+		_complex128 complex128
+
+		_byte byte
+
+		_bool   bool
+		_rune   rune
+		_string string
+
+		_struct_int32   struct{ a int32 }
+		_struct_int64   struct{ a int64 }
+		_struct_float32 struct{ a float32 }
+		_struct_float64 struct{ a float64 }
+		_struct_byte    struct{ a byte }
+		_struct_bool    struct{ a bool }
+		_struct_string  struct{ a string }
+
+		_struct_int32_int32 struct{ a, b int32 }
+		_struct_int32_int64 struct {
+			a int32
+			b int64
 		}
+		_struct_array_bytes_7 struct{ a [7]byte }
+		_struct_byte_7        struct{ a, b, c, d, e, f, g byte }
+	)
+
+	var x int64
+	var px = new(int64)
+
+	var s1 struct {
+		a int32
+		b int64
+	}
+	var ps1 = new(struct {
+		a int32
+		b int64
+	})
+
+	var s2 struct {
+		a string
+	}
+	var ps2 = new(struct {
+		a string
+	})
+
+	var b15 struct {
+		a byte
+		b byte
+		c byte
+		d byte
+		e byte
+		f byte
+		g byte
+	}
+	var b16 [16]byte
+
+	b.Run("boxed", func(b *testing.B) {
+		/*b.Run("struct", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			//b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				_ = interface{}(s1)
+			}
+
+		})*/
+
+		b.Run("int64", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = float64(0)
+			}
+		})
+		b.Run("*int64", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = px
+			}
+		})
+		b.Run("struct{int32; int64}", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = s1
+			}
+		})
+		b.Run("*struct{int32; int64}", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = ps1
+			}
+		})
+		b.Run("struct{string}", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = s2
+			}
+		})
+		b.Run("*struct{string}", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = ps2
+			}
+		})
+		b.Run("[15]byte", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = b15
+			}
+		})
+		b.Run("[16]byte", func(b *testing.B) {
+			list := make(blist.List, b.N)
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				list[i] = b16
+			}
+		})
 	})
 	b.Run("generic", func(b *testing.B) {
-		var list glist.List[int]
-		for i := 0; i < b.N; i++ {
-			list = append(list, i)
-		}
+		b.Run("int64", func(b *testing.B) {
+			list := make(glist.List[int64], b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = x
+			}
+		})
+		b.Run("*int64", func(b *testing.B) {
+			list := make(glist.List[*int64], b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = px
+			}
+		})
+		b.Run("struct{int32; int64}", func(b *testing.B) {
+			list := make(glist.List[struct {
+				a int32
+				b int64
+			}], b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = s1
+			}
+		})
+		b.Run("*struct{int32; int64}", func(b *testing.B) {
+			list := make(glist.List[*struct {
+				a int32
+				b int64
+			}], b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = ps1
+			}
+		})
 	})
 	b.Run("typed", func(b *testing.B) {
-		var list tlist.IntList
-		for i := 0; i < b.N; i++ {
-			list = append(list, i)
-		}
+		b.Run("int64", func(b *testing.B) {
+			list := make([]int64, b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = x
+			}
+		})
+		b.Run("*int64", func(b *testing.B) {
+			list := make([]*int64, b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = px
+			}
+		})
+		b.Run("struct{int32; int64}", func(b *testing.B) {
+			list := make([]struct {
+				a int32
+				b int64
+			}, b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = s1
+			}
+		})
+		b.Run("*struct{int32; int64}", func(b *testing.B) {
+			list := make([]*struct {
+				a int32
+				b int64
+			}, b.N)
+			for i := 0; i < b.N; i++ {
+				list[i] = ps1
+			}
+		})
 	})
 }
 
