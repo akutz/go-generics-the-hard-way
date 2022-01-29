@@ -41,7 +41,7 @@ func (u Unique) GetID() string {
 //
 // Structural constraints must match *exactly*.
 //
-// UniqueName *does* satisfy the interface constraint "CanGetName."
+// UniqueName *does* satisfy the interface constraint "CanGetID."
 type UniqueName struct {
 	Unique
 	Name string
