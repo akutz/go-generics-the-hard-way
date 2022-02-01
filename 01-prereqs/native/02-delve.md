@@ -3,11 +3,11 @@
 The [delve](https://github.com/go-delve/delve) program is a debugger for Golang and should feel at home to people familiar with `gdb`.
 
 * [**Install delve**](#install-delve): install the go debugger
-* [**Configure delve**](#configure-delve): ensure delve uses Go 1.18beta1
+* [**Configure delve**](#configure-delve): ensure delve uses Go 1.18beta2
 
 ## Install delve
 
-Install the latest release (1.18+) to support Go 1.18beta1 with the following command:
+Install the latest release (1.18+) to support Go 1.18beta2 with the following command:
 
 ```bash
 go install github.com/go-delve/delve/cmd/dlv@latest
@@ -47,17 +47,17 @@ Even with the latest release, `dlv debug` may not work as expected"
 
 This fails because delve [uses the `go` binary from the shell's `PATH`](https://github.com/go-delve/delve/blob/master/pkg/gobuild/gobuild.go) to build a binary suitable for debugging. To fix this issue the Go 1.18 binary needs to be the program called when delve invokes the `go` command:
 
-1. If Go 1.18beta1 was installed from the instructions on the previous page, then use the following command to ensure that Go 1.18beta1's `go` binary appears first in the shell's `PATH`:
+1. If Go 1.18beta2 was installed from the instructions on the previous page, then use the following command to ensure that Go 1.18beta2's `go` binary appears first in the shell's `PATH`:
 
     ```bash
-    export PATH="$(go1.18beta1 env GOROOT)/bin:${PATH}"
+    export PATH="$(go1.18beta2 env GOROOT)/bin:${PATH}"
     ```
 
-2. Verify that `go version` shows Go 1.18beta1:
+2. Verify that `go version` shows Go 1.18beta2:
 
     ```bash
     $ go version
-    go version go1.18beta1 linux/amd64
+    go version go1.18beta2 linux/amd64
     ```
 
 3. Run the delve debugger again:

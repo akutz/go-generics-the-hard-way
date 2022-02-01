@@ -93,7 +93,7 @@ Note: This assumes you are using VS Code as your IDE
   ```bash 
   go version
   ```
-  If you see `go version go1.18beta1 linux/arm64` you should be good to go.
+  If you see `go version go1.18beta2 linux/arm64` you should be good to go.
   
 ---
 

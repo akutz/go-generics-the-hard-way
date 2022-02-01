@@ -23,7 +23,7 @@ func main() {
 
 ---
 
-:warning: Eagle-eyed readers may notice that `SomeFunc` does not actually do anything. That is because there is currently a bug in Go 1.18beta1 that _should_ be resolved by the time 1.18 is released. For now, the issue [golang/go#50417](https://github.com/golang/go/issues/50417) prevents reading and writing fields with structural constraints.
+:warning: Eagle-eyed readers may notice that `SomeFunc` does not actually do anything. That is because there is currently a bug in Go 1.18beta2 that _should_ be resolved by the time 1.18 is released. For now, the issue [golang/go#50417](https://github.com/golang/go/issues/50417) prevents reading and writing fields with structural constraints.
 
 ---
 

@@ -2,7 +2,7 @@
 
 All of the below software must be installed and configured correctly to run the examples in this repository:
 
-* [**Go 1.18beta1+**](https://go.dev/dl/#go1.18beta1): the version of Go with support for generics
+* [**Go 1.18beta2+**](https://go.dev/dl/#go1.18beta2): the version of Go with support for generics
 * [**delve 1.18+**](https://github.com/go-delve/delve): the Go debugger
 * [**.NET 6.0+**](https://dotnet.microsoft.com/en-us/download/dotnet/6.0): the .NET runtime and SDK
 * [**lldb 11+**](https://lldb.llvm.org/man/lldb.html): a high-performance debugger
