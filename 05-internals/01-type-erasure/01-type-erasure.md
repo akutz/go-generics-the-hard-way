@@ -11,7 +11,7 @@ var ints = List<Int32>{1, 2, 3}
 var strs = List<String>{"Hello", "world"}
 ```
 
-The above pseudo-code makes it perfectly clear that `list1` is a list of 32-bit integers and `list2` is a list of string values. Languages that practice type erasure would transform the above pseudo-code to looking something a litle more like this at runtime:
+The above pseudo-code makes it perfectly clear that `ints` is a list of 32-bit integers and `strs` is a list of string values. Languages that practice type erasure would transform the above pseudo-code to looking something a litle more like this at runtime:
 
 ```
 var ints = List{1, 2, 3}
