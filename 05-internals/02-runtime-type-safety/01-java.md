@@ -51,7 +51,7 @@ We know that at runtime both `ints` and `strs` lost their type information and e
     jdb -sourcepath ./05-internals/java -classpath ./05-internals/java Main
     ```
 
-1. Set a breakpoint so the debugger will pause execution after the `ints` list has been efined and values added to it:
+1. Set a breakpoint so the debugger will pause execution after the `ints` list has been defined and values added to it:
 
     ```bash
     stop at Main:30
