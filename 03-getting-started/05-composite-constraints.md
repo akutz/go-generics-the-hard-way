@@ -38,7 +38,7 @@ func main() {
 }
 ```
 
-The above program will compile and print the execpted result:
+The above program will compile and print the expected result:
 
 ```bash
 6
