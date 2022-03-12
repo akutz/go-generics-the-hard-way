@@ -1,6 +1,6 @@
 # Java
 
-When generics were introduced to Java 5.0 back in 2004, they were implemented with _type erasure_ to provide backwards-compatibility with existing bytecode. However, this resulted in an implementation of generics that were largely a compile-time conveience feature for developers as the type information is erased at runtime. To see what this looks like, please consider the following program:
+When generics were introduced to Java 5.0 back in 2004, they were implemented with _type erasure_ to provide backwards-compatibility with existing bytecode. However, this resulted in an implementation of generics that was largely a compile-time convenience feature for developers as the type information is erased at runtime. To see what this looks like, please consider the following program:
 
 ```java
 import java.util.ArrayList;
