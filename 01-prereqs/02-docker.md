@@ -54,7 +54,7 @@ This method does not require cloning this repository locally since the Docker im
 
 ```bash
 docker run -it --rm go-generics-the-hard-way \
-  go test -tags benchmarks -run Boxing -bench Boxing -benchmem -count 5 -v ./06-benchmarks/boxing/
+  go test -tags benchmarks -run Boxing -bench Boxing -benchmem -count 5 -v ./06-benchmarks/
 ```
 
 ### Mount repository
