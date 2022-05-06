@@ -34,7 +34,7 @@ func SomeFunc[T ~string, K Numeric](id T, fn SumFn[K]) {}
 
 > receive zero to many numeric values
 
-Okay, this would be a variadic based on the generic constriant `Numeric`. Easy enough:
+Okay, this would be a variadic based on the generic constraint `Numeric`. Easy enough:
 
 ```golang
 func SomeFunc[T ~string, K Numeric](id T, sum SumFn[K], values ...K) {}
