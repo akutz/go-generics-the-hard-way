@@ -2,7 +2,7 @@
 
 Up to this point all of the examples have used a single generic type, `T`, in the function `Sum[T Numeric](...T) T`. But how are multiple generic, types expressed? Imagine we need to define a function that can:
 
-* recieve an ID that can be represented by a string value
+* receive an ID that can be represented by a string value
 * receive a function that can be used to sum numeric values
 * receive zero to many numeric values
 * print the ID and sum of the values on a single line
@@ -13,7 +13,7 @@ With what we have learned so far, it _should_ be possible to satisfy the above u
 
 So there needs to be a single function that can handle the remaining requirements, got it.
 
-> recieve an ID that can be represented by a string value 
+> receive an ID that can be represented by a string value 
 
 This sounds like a generic constraint that can be expressed as `~string`. With that we can probably start building our function:
 
