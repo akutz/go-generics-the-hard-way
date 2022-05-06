@@ -13,7 +13,7 @@ With what we have learned so far, it _should_ be possible to satisfy the above u
 
 So there needs to be a single function that can handle the remaining requirements, got it.
 
-> receive an ID that can be represented by a string value 
+> receive an ID that can be represented by a string value
 
 This sounds like a generic constraint that can be expressed as `~string`. With that we can probably start building our function:
 
